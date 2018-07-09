@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
+@SuppressWarnings("restriction")
 public class ReduceImg {
     /**
      * 指定图片宽度和高度和压缩比例对图片进行压缩
