@@ -71,6 +71,7 @@ public class ReduceImg {
             encoder.encode(tag);
             //关闭文件输出流
             out.close();
+            System.out.println(String.format("文件操作完毕：%s", imgdist));
         } catch (Exception ef) {
             ef.printStackTrace();
         }

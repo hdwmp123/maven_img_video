@@ -68,7 +68,7 @@ public class GifExe {
             ReduceImg.reduceImg(file.getAbsolutePath(), outPath, 120, 120, null);
         }
         //转换为120X120png
-        inDir = new File(path + "src240/");
+        inDir = new File(path + "src120/");
         listFiles = inDir.listFiles();
         for (File file : listFiles) {
             String outPath = file.getAbsolutePath().replace("src", "png").replaceAll(".jpg", ".png");

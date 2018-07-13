@@ -1,6 +1,10 @@
 package com.king.img;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -142,7 +146,48 @@ public class ImageCompressUtil {
         deskImage.close();
     }
 
+    /**
+     * 圆角处理
+     * 
+     * @param srcImageFile
+     *            源文件
+     * @param result
+     *            目标文件
+     * @param type
+     *            图片类型
+     * @param cornerRadius
+     *            圆角尺寸
+     * @return
+     */
+    public static String makeRoundedCorner(String srcImageFile, String result, String type, int cornerRadius) {
+        try {
+            BufferedImage image = ImageIO.read(new File(srcImageFile));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = output.createGraphics();
+            output = g2.getDeviceConfiguration().createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+            g2.dispose();
+            g2 = output.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.fillRoundRect(0, 0,w, h, cornerRadius, cornerRadius);
+            g2.setComposite(AlphaComposite.SrcIn);
+            g2.drawImage(image, 0, 0, w, h, null);
+            g2.dispose();
+            ImageIO.write(output, type, new File(result));
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void main(String args[]) throws Exception {
-        ImageCompressUtil.zipImageFile("C:/Users/chanp/Desktop/Img/小猫咪/png240/04.png", 240, 240, 0.9F, "x2");
+        //ImageCompressUtil.zipImageFile("C:/Users/chanp/Desktop/Img/小猫咪/png240/04.png", 240, 240, 0.9F, "x2");
+        
+        ImageCompressUtil.makeRoundedCorner("C:/Users/chanp/Desktop/Img/小猫咪/17.png", "C:/Users/chanp/Desktop/Img/小猫咪/17_new.png", "png", 50);
+        
+        ImageCompressUtil.makeRoundedCorner("C:/Users/chanp/Desktop/Img/小猫咪/png50/17.png", "C:/Users/chanp/Desktop/Img/小猫咪/png50/17_new.png", "png", 10);
+        System.out.println("OK");
     }
 }
