@@ -13,7 +13,7 @@ import com.gif4j.ImageUtils;
 
 public class GifExe {
     public static void main(String[] args) throws IOException {
-        String path = "C:/Users/chanp/Desktop/Img/小猫咪/";
+        String path = "C:/Users/chanp/Desktop/Img/小猫咪2/";
       //----------------------------------------------
         //压缩到640X640
         File inDir = new File(path + "src/");
