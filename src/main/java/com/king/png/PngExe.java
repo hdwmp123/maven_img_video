@@ -68,6 +68,7 @@ public class PngExe extends RGBImageFilter {
             System.out.println("same");
             return targetRgb;
         }
-        return alp << 24 | dcm.getRGB(rgb);// 进行标准ARGB输出以实现图象过滤
+        // 进行标准ARGB输出以实现图象过滤
+        return alp << 24 | dcm.getRGB(rgb);
     }
 }

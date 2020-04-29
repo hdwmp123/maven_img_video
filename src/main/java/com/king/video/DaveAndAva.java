@@ -7,6 +7,9 @@ import java.util.List;
 
 import com.king.video.util.VideoUtil;
 
+/**
+ * 视频分隔
+ */
 public class DaveAndAva {
     static final VideoUtil util = new VideoUtil();
 
@@ -31,6 +34,7 @@ public class DaveAndAva {
         if (!filePath.endsWith(".mp4")) {
             throw new Exception("文件格式错误");
         }
+        // 分隔标题
         String[] title = new String[] { 
                 "1",
                 "2"

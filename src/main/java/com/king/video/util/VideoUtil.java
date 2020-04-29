@@ -21,7 +21,6 @@ public class VideoUtil {
     public static String FFPROBE = FFMPEG_BASE + "ffprobe.exe";
 
     /**
-     * 
      * @param file
      * @return 和获取视频时长
      * @throws FileNotFoundException
@@ -58,11 +57,9 @@ public class VideoUtil {
     /**
      * 获取文件大小
      *
-     * @param file
-     *            取的文件长度，单位为字节b
+     * @param file 取的文件长度，单位为字节b
      * @return 文件长度的字节数
-     * @throws FileNotFoundException
-     *             文件未找到异常
+     * @throws FileNotFoundException 文件未找到异常
      */
     public long getVideoFileLength(File file) throws FileNotFoundException {
         if (!file.exists()) {
@@ -74,8 +71,7 @@ public class VideoUtil {
     /**
      * 将秒表示时长转为00:00:00格式
      *
-     * @param second
-     *            秒数时长
+     * @param second 秒数时长
      * @return 字符串格式时长
      */
     public String parseTimeToString(int second) {
@@ -96,8 +92,7 @@ public class VideoUtil {
     /**
      * 执行Cmd命令方法
      *
-     * @param command
-     *            相关命令
+     * @param command 相关命令
      * @return 执行结果
      */
     public synchronized CmdResult runCommand(List<String> command) {
@@ -109,24 +104,23 @@ public class VideoUtil {
             final StringBuilder stringBuilder = new StringBuilder();
             final InputStream inputStream = process.getInputStream();
             new Thread(new Runnable() {// 启动新线程为异步读取缓冲器，防止线程阻塞
-                        @Override
-                        public void run() {
-                            BufferedReader reader = new BufferedReader(
-                                    new InputStreamReader(inputStream));
-                            String line;
-                            try {
-                                while ((line = reader.readLine()) != null) {
-                                    stringBuilder.append(line);
-                                    // mListener.isLoading(true);
-                                    // System.out.println(line);
-                                }
-                                // mListener.isLoading(false);
-                                reader.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                public void run() {
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(inputStream));
+                    String line;
+                    try {
+                        while ((line = reader.readLine()) != null) {
+                            stringBuilder.append(line);
+                            // mListener.isLoading(true);
+                            // System.out.println(line);
                         }
-                    }).start();
+                        // mListener.isLoading(false);
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
             process.waitFor();
             cmdResult.setSuccess(true);
             cmdResult.setMsg(stringBuilder.toString());
@@ -140,8 +134,8 @@ public class VideoUtil {
 
     /**
      * 屏幕截图
-     * 
-     * @param file
+     *
+     * @param filePath
      * @throws Exception
      */
     public void screenShot(String filePath) throws Exception {
@@ -159,11 +153,11 @@ public class VideoUtil {
             final List<String> commands = new ArrayList<String>();
             commands.add(VideoUtil.FFMPEG);
             commands.add("-ss");
-            commands.add(parseTimeToString(i+1));
+            commands.add(parseTimeToString(i + 1));
             commands.add("-i");
             commands.add(filePath);
             commands.add(fileFolder + File.separator + "img" + File.separator
-                    + fileName[0] + "_" + (i+1) + ".jpg");
+                    + fileName[0] + "_" + (i + 1) + ".jpg");
             commands.add("-r");
             commands.add("1");
             commands.add("-vframes");
@@ -172,7 +166,6 @@ public class VideoUtil {
             commands.add("-f");
             commands.add("mjpeg");
             new Thread(new Runnable() {
-                @Override
                 public void run() {
                     System.out.println(commands.toString());
                     runCommand(commands);
@@ -180,6 +173,6 @@ public class VideoUtil {
             }).start();
             break;
         }
-        
+
     }
 }
