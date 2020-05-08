@@ -23,6 +23,13 @@ import java.math.RoundingMode;
  */
 public class BiaoQingBaoGenerate {
     public static void main(String[] args) {
+        biaoQingBao();
+    }
+
+    /**
+     * 表情包裁剪
+     */
+    private static void biaoQingBao() {
         //convertTitle("/Users/kingtiger/Downloads/Me");
         String source = "/Users/kingtiger/Downloads/Me/诺基亚表情包/source";
         File dir = new File(source);
@@ -309,7 +316,8 @@ public class BiaoQingBaoGenerate {
         //实际宽高比
         double real_scale = divide(relWidth, relHeight);
         int width, height, x, y;
-        if (real_scale > w_h_scale) {//胖
+        //胖
+        if (real_scale > w_h_scale) {
             //高度为标准，宽度裁剪
             width = (int) (relHeight * w_h_scale);
             height = relHeight;

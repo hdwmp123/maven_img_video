@@ -31,7 +31,8 @@ public class PngExe extends RGBImageFilter {
             }
             try {
                 BufferedImage imageBiao = ImageIO.read(new FileInputStream(file));
-                ImageFilter imgf = new PngExe(new Color(71,89,120).getRGB(),Color.WHITE.getRGB()); //白色
+                //白色
+                ImageFilter imgf = new PngExe(new Color(71,89,120).getRGB(),Color.WHITE.getRGB());
                 FilteredImageSource fis = new FilteredImageSource(imageBiao.getSource(), imgf);
                 Image im = Toolkit.getDefaultToolkit().createImage(fis);
                 im.flush();
@@ -48,17 +49,27 @@ public class PngExe extends RGBImageFilter {
         }
         System.out.println("OK");
     }
-    // 继承它实现图象ARGB的处理
+    /**
+     * 继承它实现图象ARGB的处理
+     */
+
     int sourceRgb = 0;
     int targetRgb = 0;
 
-    public PngExe(int sourceRgb,int targetRgb) {// 构造器，用来接收需要过滤图象的尺寸，以及透明度
+    /**
+     * 构造器，用来接收需要过滤图象的尺寸，以及透明度
+     * @param sourceRgb
+     * @param targetRgb
+     */
+    public PngExe(int sourceRgb,int targetRgb) {
+
         this.canFilterIndexColorModel = true;
         this.sourceRgb = sourceRgb;
         this.targetRgb = targetRgb;
     }
     DirectColorModel dcm = (DirectColorModel) ColorModel.getRGBdefault();
 
+    @Override
     public int filterRGB(int x, int y, int rgb) {
         int alp = dcm.getAlpha(rgb);
         if (alp != 0) {
