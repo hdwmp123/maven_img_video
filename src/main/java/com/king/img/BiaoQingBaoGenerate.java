@@ -23,7 +23,31 @@ import java.math.RoundingMode;
  */
 public class BiaoQingBaoGenerate {
     public static void main(String[] args) {
-        biaoQingBao();
+        //biaoQingBao();
+        xiaoChengXuLogo();
+    }
+
+    /**
+     * 生成小程序logo
+     */
+    private static void xiaoChengXuLogo() {
+        String path = "/Users/kingtiger/Downloads/小程序LOGO/";
+        //rename("/Users/kingtiger/Downloads/小程序LOGO/");
+        String source = path + "source";
+        File dir = new File(source);
+        File[] files = dir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+            if (checkFile(file, "jpg")) {
+                continue;
+            }
+            autoCut(
+                    file.getAbsolutePath(),
+                    path + "out/" + file.getName(),
+                    574,
+                    1244
+            );
+        }
     }
 
     /**
@@ -61,6 +85,11 @@ public class BiaoQingBaoGenerate {
         }
     }
 
+    /**
+     * 文件重命名
+     *
+     * @param dirPath
+     */
     private static void rename(String dirPath) {
         File inDir = new File(dirPath + "source/");
         File[] listFiles = inDir.listFiles();
@@ -121,6 +150,8 @@ public class BiaoQingBaoGenerate {
     }
 
     /**
+     * 转换所有格式
+     *
      * @param dirPath
      * @throws IOException
      */
@@ -307,6 +338,10 @@ public class BiaoQingBaoGenerate {
             int widthParam,
             int heightParam
     ) {
+        System.out.println("autoCut#inFilePath=" + inFilePath);
+        System.out.println("autoCut#outFilePath=" + outFilePath);
+        System.out.println("autoCut#widthParam=" + widthParam);
+        System.out.println("autoCut#heightParam=" + heightParam);
         //
         int[] imgWidthHeight = getImgWidthHeight(inFilePath);
         //标准宽高比
@@ -332,6 +367,7 @@ public class BiaoQingBaoGenerate {
         }
         try {
             String format = outFilePath.substring(outFilePath.indexOf(".") + 1);
+            createFile(outFilePath);
             Thumbnails.of(inFilePath).sourceRegion(x, y, width, height).outputFormat(format).size(widthParam, heightParam).toFile(outFilePath);
         } catch (IOException e) {
             e.printStackTrace();
@@ -359,6 +395,7 @@ public class BiaoQingBaoGenerate {
     public static int[] getImgWidthHeight(
             String filePath
     ) {
+        System.out.println("getImgWidthHeight#" + filePath);
         File file = new File(filePath);
         int result[] = {0, 0};
         try {
