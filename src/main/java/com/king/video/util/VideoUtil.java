@@ -16,9 +16,10 @@ import org.json.JSONObject;
 import com.king.video.CmdResult;
 
 public class VideoUtil {
-    private static String FFMPEG_BASE = "D:/Develop/ffmpeg/ffmpeg-win64-static/bin/";
-    public static String FFMPEG = FFMPEG_BASE + "ffmpeg.exe";
-    public static String FFPROBE = FFMPEG_BASE + "ffprobe.exe";
+    // private static String FFMPEG_BASE = "D:/Develop/ffmpeg/ffmpeg-win64-static/bin/";
+    private static String FFMPEG_BASE = "/usr/local/bin/";
+    public static String FFMPEG = FFMPEG_BASE + "ffmpeg";
+    public static String FFPROBE = FFMPEG_BASE + "ffprobe";
 
     /**
      * @param file
@@ -103,18 +104,16 @@ public class VideoUtil {
             Process process = builder.start();
             final StringBuilder stringBuilder = new StringBuilder();
             final InputStream inputStream = process.getInputStream();
-            new Thread(new Runnable() {// 启动新线程为异步读取缓冲器，防止线程阻塞
+            // 启动新线程为异步读取缓冲器，防止线程阻塞
+            new Thread(new Runnable() {
+                @Override
                 public void run() {
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(inputStream));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     String line;
                     try {
                         while ((line = reader.readLine()) != null) {
                             stringBuilder.append(line);
-                            // mListener.isLoading(true);
-                            // System.out.println(line);
                         }
-                        // mListener.isLoading(false);
                         reader.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -124,8 +123,7 @@ public class VideoUtil {
             process.waitFor();
             cmdResult.setSuccess(true);
             cmdResult.setMsg(stringBuilder.toString());
-            System.out.println(String.format("执行结果:%s",
-                    stringBuilder.toString()));
+            System.out.println(String.format("执行结果:%s", stringBuilder.toString()));
         } catch (Exception e) {
             throw new RuntimeException("ffmpeg执行异常" + e.getMessage());
         }
@@ -165,12 +163,8 @@ public class VideoUtil {
             commands.add("-an");
             commands.add("-f");
             commands.add("mjpeg");
-            new Thread(new Runnable() {
-                public void run() {
-                    System.out.println(commands.toString());
-                    runCommand(commands);
-                }
-            }).start();
+            System.out.println(commands.toString());
+            runCommand(commands);
             break;
         }
 
