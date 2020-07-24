@@ -97,6 +97,13 @@ public class VideoUtil {
      * @return 执行结果
      */
     public synchronized CmdResult runCommand(List<String> command) {
+        //
+        System.out.println("执行命令");
+        for (String str : command) {
+            System.out.print(str + " ");
+        }
+        System.out.println("");
+        //
         CmdResult cmdResult = new CmdResult(false, "");
         ProcessBuilder builder = new ProcessBuilder(command);
         builder.redirectErrorStream(true);
@@ -123,7 +130,8 @@ public class VideoUtil {
             process.waitFor();
             cmdResult.setSuccess(true);
             cmdResult.setMsg(stringBuilder.toString());
-            System.out.println(String.format("执行结果:%s", stringBuilder.toString()));
+            //System.out.println(String.format("执行结果:%s", stringBuilder.toString()));
+            System.out.println("******************************************************");
         } catch (Exception e) {
             throw new RuntimeException("ffmpeg执行异常" + e.getMessage());
         }

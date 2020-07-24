@@ -116,4 +116,18 @@ public class FileUtil {
         os.close();
         is.close();
     }
+
+    public static void str2File(String str, String filePath) {
+        FileWriter writer;
+        try {
+            writer = new FileWriter(filePath);
+            //清空原文件内容
+            writer.write("");
+            writer.write(str);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
